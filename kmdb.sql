@@ -83,29 +83,30 @@
 -- Top Cast
 -- ========
 
--- Batman Begins          Christian Bale        Bruce Wayne
--- Batman Begins          Michael Caine         Alfred
--- Batman Begins          Liam Neeson           Ra's Al Ghul
--- Batman Begins          Katie Holmes          Rachel Dawes
--- Batman Begins          Gary Oldman           Commissioner Gordon
--- The Dark Knight        Christian Bale        Bruce Wayne
--- The Dark Knight        Heath Ledger          Joker
--- The Dark Knight        Aaron Eckhart         Harvey Dent
--- The Dark Knight        Michael Caine         Alfred
--- The Dark Knight        Maggie Gyllenhaal     Rachel Dawes
--- The Dark Knight Rises  Christian Bale        Bruce Wayne
--- The Dark Knight Rises  Gary Oldman           Commissioner Gordon
--- The Dark Knight Rises  Tom Hardy             Bane
--- The Dark Knight Rises  Joseph Gordon-Levitt  John Blake
--- The Dark Knight Rises  Anne Hathaway         Selina Kyle
+-- Batman Begins          Christian Bale        Bruce Wayne D
+-- Batman Begins          Michael Caine         Alfred D
+-- Batman Begins          Liam Neeson           Ra's Al Ghul D
+-- Batman Begins          Katie Holmes          Rachel Dawes D
+-- Batman Begins          Gary Oldman           Commissioner Gordon D
+-- The Dark Knight        Christian Bale        Bruce Wayne D
+-- The Dark Knight        Heath Ledger          Joker D
+-- The Dark Knight        Aaron Eckhart         Harvey Dent D
+-- The Dark Knight        Michael Caine         Alfred D
+-- The Dark Knight        Maggie Gyllenhaal     Rachel Dawes D
+-- The Dark Knight Rises  Christian Bale        Bruce Wayne D
+-- The Dark Knight Rises  Gary Oldman           Commissioner Gordon D
+-- The Dark Knight Rises  Tom Hardy             Bane D
+-- The Dark Knight Rises  Joseph Gordon-Levitt  John Blake D
+-- The Dark Knight Rises  Anne Hathaway         Selina Kyle D
 
 -- Turns column mode on but headers off
 .mode column
 .headers off
 
 -- Drop existing tables, so you'll start fresh each time this script is run.
-DROP TABLE movies;
-DROP TABLE performers;
+DROP TABLE Movies;
+DROP TABLE Performers;
+DROP TABLE characters;
 
 -- Create new tables, according to your domain model
 CREATE TABLE Movies (
@@ -116,33 +117,73 @@ CREATE TABLE Movies (
     studio TEXT
 );
 
-CREATE TABLE performers (
+CREATE TABLE Performers (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    performer_name TEXT,
+    performer_name TEXT
 );
 
-CREATE TABLE character (
+CREATE TABLE characters (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    performer_name TEXT,
-    character_name TEXT
+    character_name TEXT,
+    movie_id INTEGER,
+    performers_id INTEGER
 );
 
 -- Insert data into your database that reflects the sample data shown above
 -- Use hard-coded foreign key IDs when necessary
-INSERT INTO movies (movie_name,
+INSERT INTO Movies (movie_name,
  year_released,
   MPAA_rating,
   studio
-  ) VALUES (
-    "Batman Begins",
-    2005,
-    "PG-13",
-    "Warner Bros."
-  );
+  ) VALUES ("Batman Begins", 2005, "PG-13", "Warner Bros.");
+  -- 1
+INSERT INTO Movies (movie_name,
+ year_released,
+  MPAA_rating,
+  studio
+  ) VALUES ("The Dark Knight", 2008, "PG-13", "Warner Bros.");
+  -- 2
+INSERT INTO Movies (movie_name,
+ year_released,
+  MPAA_rating,
+  studio
+  ) VALUES ("The Dark Knight Rises", 2012, "PG-13", "Warner Bros.");
+  -- 3
+  -- Done with Movies additions
+
+INSERT INTO Performers (performer_name) 
+VALUES ("Christian Bale"),
+("Michael Caine"),
+("Liam Neeson"),
+("Katie Holmes"),
+("Gary Oldman"),
+("Heath Ledger"),
+("Aaron Eckhart"),
+("Maggie Gyllenhaal"),
+("Tom Hardy"),
+("Joseph Gordon-Levitt"),
+("Anne Hathaway");
+
+INSERT INTO characters (character_name, movie_id, performers_id) 
+VALUES ("Bruce Wayne", 1, 1),
+("Bruce Wayne", 2, 1),
+("Bruce Wayne", 3, 1),
+("Alfred", 1, 2),
+("Alfred", 2, 2),
+("Ra's Al Ghul", 1, 3),
+("Rachel Dawes", 1, 4),
+("Rachel Dawes", 2, 8),
+("Comissioner Gordon", 1, 5),
+("Comissioner Gordon", 3, 5),
+("Heath Ledger", 2, 6),
+("Harvey Dent", 2, 7),
+("Bane", 3, 9),
+("John Blake", 3, 10),
+("Selina Kyle", 3, 11);
 
 -- Prints a header for the movies output
 .print "Movies"
-.print "======"
+.print ""
 .print ""
 
 -- The SQL statement for the movies output
